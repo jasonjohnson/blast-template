@@ -69,6 +69,23 @@ class TemplateTest extends PHPUnit_Framework_TestCase
 		
 		$this->assertStringEqualsFile($file_name_output, $this->template->buffer);
 	}
+	
+	function testBlockAndMultipleVariableReplacement()
+	{
+		$file_name = 'examples/005.html';
+		$file_name_output = 'examples/005-output.html';
+		
+		$contacts = array(
+			array('name' => 'Bob', 'email' => 'bob@example.com'),
+			array('name' => 'John', 'email' => 'john@example.com'),
+		);
+		
+		$this->template->load($file_name);
+		$this->template->assign('contacts', $contacts);
+		$this->template->render();
+		
+		$this->assertStringEqualsFile($file_name_output, $this->template->buffer);
+	}
 }
 
 ?>
