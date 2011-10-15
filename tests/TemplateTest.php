@@ -77,11 +77,34 @@ class TemplateTest extends PHPUnit_Framework_TestCase
 		
 		$contacts = array(
 			array('name' => 'Bob', 'email' => 'bob@example.com'),
-			array('name' => 'John', 'email' => 'john@example.com'),
+			array('name' => 'John', 'email' => 'john@example.com')
 		);
 		
 		$this->template->load($file_name);
 		$this->template->assign('contacts', $contacts);
+		$this->template->render();
+		
+		$this->assertStringEqualsFile($file_name_output, $this->template->buffer);
+	}
+	
+	function testNestedBlocks()
+	{
+		$file_name = 'examples/006.html';
+		$file_name_output = 'examples/006-output.html';
+		
+		$posts = array(
+			array('title' => 'Hello, world.', 'content' => 'An example blog entry.', 'comments' => array(
+				array('comment' => 'Neat.'),
+				array('comment' => 'Insightful.')
+			)),
+			array('title' => 'Word up.', 'content' => 'Getting jiggy wit it.', 'comments' => array(
+				array('comment' => 'Excellent.'),
+				array('comment' => 'Wow.')
+			))
+		);
+		
+		$this->template->load($file_name);
+		$this->template->assign('posts', $posts);
 		$this->template->render();
 		
 		$this->assertStringEqualsFile($file_name_output, $this->template->buffer);
