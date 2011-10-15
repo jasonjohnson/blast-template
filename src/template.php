@@ -3,6 +3,13 @@
 class Template
 {
 	var $buffer;
+	var $assignments;
+	
+	function Template()
+	{
+		$this->buffer = "";
+		$this->assignments = array();
+	}
 	
 	function load($file_name)
 	{
@@ -14,15 +21,17 @@ class Template
 		fclose($fh);
 	}
 	
-	function assign($key, $value = '')
+	function assign($key, $value = null)
 	{
-		if(is_array($value))
-			return $this->assign_block($key, $value);
-		
+		$this->assignments[$key] = $value;
+	}
+	
+	function render_value($key, $value = null)
+	{
 		$this->buffer = str_replace("{{$key}}", $value, $this->buffer);
 	}
 	
-	function assign_block($key, $value = array())
+	function render_block($key, $value = array())
 	{
 		$matches = array();
 		
@@ -45,8 +54,22 @@ class Template
 		}
 		
 		$block_result = rtrim($block_result);
-		
 		$this->buffer = preg_replace($block_exp, $block_result, $this->buffer);
+	}
+	
+	function render()
+	{
+		foreach($this->assignments as $key => $value) {
+			if(!is_array($value))
+				continue;
+			$this->render_block($key, $value);
+		}
+		
+		foreach($this->assignments as $key => $value) {
+			if(is_array($value))
+				continue;
+			$this->render_value($key, $value);
+		}
 	}
 }
 

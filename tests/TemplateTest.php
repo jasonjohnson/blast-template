@@ -27,6 +27,7 @@ class TemplateTest extends PHPUnit_Framework_TestCase
 		
 		$this->template->load($file_name);
 		$this->template->assign('name', 'Jason Johnson');
+		$this->template->render();
 		
 		$this->assertStringEqualsFile($file_name_output, $this->template->buffer);
 	}
@@ -42,11 +43,12 @@ class TemplateTest extends PHPUnit_Framework_TestCase
 		$this->template->assign('city', 'Dallas');
 		$this->template->assign('state', 'Texas');
 		$this->template->assign('postal_code', '12345');
+		$this->template->render();
 		
 		$this->assertStringEqualsFile($file_name_output, $this->template->buffer);
 	}
 	
-	function testBlockMatching()
+	function testBlockAndSingleVariableReplacement()
 	{
 		$file_name = 'examples/004.html';
 		$file_name_output = 'examples/004-output.html';
@@ -63,6 +65,7 @@ class TemplateTest extends PHPUnit_Framework_TestCase
 		
 		$this->template->load($file_name);
 		$this->template->assign('names', $names);
+		$this->template->render();
 		
 		$this->assertStringEqualsFile($file_name_output, $this->template->buffer);
 	}
