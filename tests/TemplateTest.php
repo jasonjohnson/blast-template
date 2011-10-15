@@ -1,0 +1,49 @@
+<?php
+
+require '../src/template.php';
+
+class TemplateTest extends PHPUnit_Framework_TestCase
+{
+	var $template;
+	
+	protected function setUp()
+	{
+		$this->template = new Template();
+	}
+	
+	function testFileLoader()
+	{
+		$file_name = 'examples/001.html';
+		
+		$this->template->load($file_name);
+		$this->assertStringEqualsFile($file_name, $this->template->buffer);
+	}
+	
+	function testSingleVariableReplacement()
+	{
+		$file_name = 'examples/002.html';
+		$file_name_output = 'examples/002-output.html';
+		
+		$this->template->load($file_name);
+		$this->template->assign('name', 'Jason Johnson');
+		
+		$this->assertStringEqualsFile($file_name_output, $this->template->buffer);
+	}
+	
+	function testMultipleVariableReplacement()
+	{
+		$file_name = 'examples/003.html';
+		$file_name_output ='examples/003-output.html';
+		
+		$this->template->load($file_name);
+		$this->template->assign('name', 'Jason Johnson');
+		$this->template->assign('address', '123 Main Street');
+		$this->template->assign('city', 'Dallas');
+		$this->template->assign('state', 'Texas');
+		$this->template->assign('postal_code', '12345');
+		
+		$this->assertStringEqualsFile($file_name_output, $this->template->buffer);
+	}
+}
+
+?>
