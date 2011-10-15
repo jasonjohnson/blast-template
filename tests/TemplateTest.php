@@ -16,6 +16,7 @@ class TemplateTest extends PHPUnit_Framework_TestCase
 		$file_name = 'examples/001.html';
 		
 		$this->template->load($file_name);
+		
 		$this->assertStringEqualsFile($file_name, $this->template->buffer);
 	}
 	
@@ -41,6 +42,27 @@ class TemplateTest extends PHPUnit_Framework_TestCase
 		$this->template->assign('city', 'Dallas');
 		$this->template->assign('state', 'Texas');
 		$this->template->assign('postal_code', '12345');
+		
+		$this->assertStringEqualsFile($file_name_output, $this->template->buffer);
+	}
+	
+	function testBlockMatching()
+	{
+		$file_name = 'examples/004.html';
+		$file_name_output = 'examples/004-output.html';
+		
+		$names = array(
+			array('name' => 'Philip J. Fry'),
+			array('name' => 'Bender'),
+			array('name' => 'Turanga Leela'),
+			array('name' => 'Hermes Conrad'),
+			array('name' => 'Amy Wong'),
+			array('name' => 'Professor Hubert J. Farnsworth'),
+			array('name' => 'Dr. John Zoidberg')
+		);
+		
+		$this->template->load($file_name);
+		$this->template->assign('names', $names);
 		
 		$this->assertStringEqualsFile($file_name_output, $this->template->buffer);
 	}
