@@ -14,11 +14,13 @@ In short you may want to use Blast if:
 ##Template Syntax##
 
 Single variable replacement:
+
 ```html
 <h1>Hello, {name}!</h1>
 ```
 
 Looping over arrays using blocks:
+
 ```html
 {block:messages}
 	<h3>{subject}</h3>
@@ -31,6 +33,7 @@ Looping over arrays using blocks:
 This API will be evolving over the course of development. However, this is what you can expect from the current state of the project.
 
 ```php
+<?php
 include 'template.php';
 
 $name = 'Jason';
@@ -44,4 +47,5 @@ $tmpl->load('example.html');
 $tmpl->assign('name', $name);
 $tmpl->assign('messages', $messages);
 $tmpl->render();
+?>
 ```
