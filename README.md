@@ -11,7 +11,7 @@ In short you may want to use Blast Template if:
 * Smarty is too much.
 * Your own patchwork attempt at a template engine will no longer cut it.
 * You cannot expose PHP to designers or end-users.
-* If you need (what will ultimately be) a fully tested, reliable template engine for simple tasks.
+* You need (what will ultimately be) a fully tested, reliable template engine for simple tasks.
 
 ##Template Syntax##
 
@@ -21,13 +21,21 @@ Single variable replacement:
 <h1>Hello, {name}!</h1>
 ```
 
-Looping over arrays using blocks:
+Looping over arrays using blocks (nested blocks are also supported):
 
 ```html
 {block:messages}
 	<h3>{subject}</h3>
 	<p>{content}</p>
 {/block:messages}
+```
+
+**Proposed** conditional blocks:
+
+```html
+{if:error_message}
+	<p>{error_message}</p>
+{/if:error_message}
 ```
 
 ##API##
