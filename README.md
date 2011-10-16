@@ -6,10 +6,12 @@ A simple template engine for PHP.
 
 Blast Template is designed to be a piece of a larger framework called Blast. Originally, Blast used pure PHP templates but has developed the need for a safer alternative for end-users.
 
-In short you may want to use Blast if:
-*Smarty is too much.
-*Your own patchwork attempt at a template engine will no longer cut it.
-*You cannot expose PHP to designers or end-users.
+In short you may want to use Blast Template if:
+
+* Smarty is too much.
+* Your own patchwork attempt at a template engine will no longer cut it.
+* You cannot expose PHP to designers or end-users.
+* If you need (what will ultimately be) a fully tested, reliable template engine for simple tasks.
 
 ##Template Syntax##
 
