@@ -28,11 +28,17 @@ class Template
 	
 	function render_value($key, $value = null, $buffer = '')
 	{
+		if(!$buffer)
+			$buffer = $this->buffer;
+		
 		return str_replace("{{$key}}", $value, $buffer);
 	}
 	
 	function render_block($key, $value = array(), $buffer = '')
 	{
+		if(!$buffer)
+			$buffer = $this->buffer;
+		
 		$matches = array();
 		
 		$block_exp = "/\{block:{$key}\}(.*?)\{\/block:{$key}\}/s";
@@ -46,7 +52,6 @@ class Template
 		for($i = 0; $i < count($value); $i++) {
 			$r = $block_body;
 			
-			// Render blocks first.
 			foreach($value[$i] as $k => $v) {
 				if(!is_array($v))
 					continue;
@@ -54,36 +59,38 @@ class Template
 				$r = $this->render_block($k, $v, $block_body);
 			}
 			
-			// Then single variables.
 			foreach($value[$i] as $k => $v) {
 				if(is_array($v))
 					continue;
 				
-				$r = str_replace("{{$k}}", $v, $r);
+				$r = $this->render_value($k, $v, $r);
 			}
 			
-			$block_result .= "\t" . $r . "\r\n";
+			$block_result .= $r;
 		}
 		
-		$block_result = rtrim($block_result);
-		$buffer = preg_replace($block_exp, $block_result, $this->buffer);
+		$buffer = preg_replace($block_exp, $block_result, $buffer);
 		
 		return $buffer;
 	}
 	
 	function render()
 	{
+		$buffer = "";
+		
 		foreach($this->assignments as $key => $value) {
 			if(!is_array($value))
 				continue;
-			$this->buffer = $this->render_block($key, $value, $this->buffer);
+			$buffer = $this->render_block($key, $value);
 		}
 		
 		foreach($this->assignments as $key => $value) {
 			if(is_array($value))
 				continue;
-			$this->buffer = $this->render_value($key, $value, $this->buffer);
+			$this->render_value($key, $value);
 		}
+		
+		$this->buffer = $buffer;
 	}
 }
 
