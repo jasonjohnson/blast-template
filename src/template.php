@@ -87,7 +87,7 @@ class Template
 		foreach($this->assignments as $key => $value) {
 			if(is_array($value))
 				continue;
-			$this->render_value($key, $value);
+			$buffer = $this->render_value($key, $value);
 		}
 		
 		$this->buffer = $buffer;
